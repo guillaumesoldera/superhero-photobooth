@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <style>
+            .main-container {
+                position: relative;
+            }
+
+            #overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        </style>
+        <script>
+            const sizings = {
+                'mask-bleu': {
+                    topOffset: -100,
+                    leftOffet: -60,
+                    widthOffset: 130,
+                    heightOffset: 130
+                },
+                'iron-man': {
+                    topOffset: -70,
+                    leftOffet: -40,
+                    widthOffset: 70,
+                    heightOffset: 70
+                }
+                ,
+                'spiderman': {
+                    topOffset: -80,
+                    leftOffet: 0,
+                    widthOffset: 10,
+                    heightOffset: 40
+                }
+            }
+            const hero = 'spiderman';
+            const maskImage = new Image();
+            //maskImage.src = './assets/images/mask-bleu.png';
+            maskImage.src = `./assets/images/${hero}.png`;
+            const sizing = sizings[hero]
+            function onFaceApiLoad() {
+                console.log(faceapi.nets)
+                //return faceapi.nets.ssdMobilenetv1.loadFromUri('./assets/models')
+                return faceapi.nets.tinyFaceDetector.loadFromUri('./assets/models')
+            }
+
+            function isFaceDetectionModelLoaded() {
+               return !!getCurrentFaceDetectionNet().params
+            }
+
+            function getCurrentFaceDetectionNet() {
+                //return faceapi.nets.ssdMobilenetv1
+                return faceapi.nets.tinyFaceDetector
+            }
+
+            async function onPlay() {
+                const videoEl = document.getElementById('inputVideo')
+
+                if(videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded())
+                    return setTimeout(() => onPlay())
+
+
+                // const options = getFaceDetectorOptions()
+                // const options = new faceapi.SsdMobilenetv1Options({ minConfidence: 0.5 })
+                let inputSize = 512
+                let scoreThreshold = 0.5
+                const options = new faceapi.TinyFaceDetectorOptions({ inputSize, scoreThreshold })
+
+                const ts = Date.now()
+
+                const result = await faceapi.detectSingleFace(videoEl, options)
+
+                //updateTimeStats(Date.now() - ts)
+
+                if (result) {
+                    const canvas = document.getElementById('overlay')
+                    const dims = faceapi.matchDimensions(canvas, videoEl, true)
+                    const height = dims.height
+                    const width =  dims.width
+                    const resizedResults = faceapi.resizeResults(result, dims);
+                    const box = resizedResults.box;
+                    const top = box.top + sizing.topOffset;
+                    // box.right
+                    //const left = box.left - 60;
+                    const left = box.left + sizing.leftOffet;
+                    // box.bottom
+                    //const boxWidth = box.width + 130;
+                    const boxWidth = box.width + sizing.widthOffset;
+                    //const boxHeight = box.height + 160;
+                    const boxHeight = box.height + sizing.heightOffset;
+                    
+                    faceapi.draw.drawDetections(canvas, resizedResults);
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(maskImage, left, top, boxWidth, boxHeight);
+                }
+
+                setTimeout(() => onPlay())
+            }
+
+            async function setVideo() {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
+                const videoEl = document.getElementById('inputVideo')
+                videoEl.srcObject = stream
+            }
+
+            function run() {
+                onFaceApiLoad()
+                .then(() => {
+                    setVideo();
+                })
+            }   
+
+        </script>
+        <script src="./scripts/face-api.min.js" onload="run()"></script>
+    </head>
+    <body>
+        <header>
+            <h1>Become a superhero !</h1>
+        </header>
+        <main>
+            <div class="main-container">
+                <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
+                <canvas id="overlay" />
+            </div>
+        </main>
+    </body>
+</html>
