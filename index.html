@@ -14,7 +14,7 @@
         <script>
             const sizings = {
                 'mask-bleu': {
-                    topOffset: -100,
+                    topOffset: -90,
                     leftOffet: -60,
                     widthOffset: 130,
                     heightOffset: 130
@@ -38,11 +38,11 @@
                     heightOffset: 45
                 }
             }
-            const hero = 'batman';
+            let hero = 'mask-bleu';
             const maskImage = new Image();
             //maskImage.src = './assets/images/mask-bleu.png';
             maskImage.src = `./assets/images/${hero}.png`;
-            const sizing = sizings[hero]
+            let sizing = sizings[hero]
             function onFaceApiLoad() {
                 console.log(faceapi.nets)
                 //return faceapi.nets.ssdMobilenetv1.loadFromUri('./assets/models')
@@ -94,7 +94,7 @@
                     //const boxHeight = box.height + 160;
                     const boxHeight = box.height + sizing.heightOffset;
                     
-                    faceapi.draw.drawDetections(canvas, resizedResults);
+                    //faceapi.draw.drawDetections(canvas, resizedResults);
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(maskImage, left, top, boxWidth, boxHeight);
                 }
@@ -114,6 +114,11 @@
                     setVideo();
                 })
             }   
+            function selectMask(option) {
+                hero = option.value;
+                maskImage.src = `./assets/images/${hero}.png`;
+                sizing = sizings[hero]
+            }
 
         </script>
         <script src="./scripts/face-api.min.js" onload="run()"></script>
@@ -127,6 +132,12 @@
                 <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
                 <canvas id="overlay" />
             </div>
+            <select onchange="selectMask(this.options[this.selectedIndex])">
+                <option value="batman">Batman</option>
+                <option value="iron-man" >Iron Man</option>
+                <option value="mask-bleu" selected>Masque Bleu</option>
+                <option value="spiderman">Spiderman</option>
+            </select>
         </main>
     </body>
 </html>
