@@ -62,8 +62,8 @@
 
             function getCurrentFaceDetectionNet() {
                 // return faceapi.nets.ssdMobilenetv1
-                // return faceapi.nets.tinyFaceDetector
-                return faceapi.nets.faceLandmark68Net
+                return faceapi.nets.tinyFaceDetector
+                // return faceapi.nets.faceLandmark68TinyNet
             }
 
             async function onPlay() {
@@ -82,15 +82,11 @@
                 const options = new faceapi.TinyFaceDetectorOptions({ inputSize, scoreThreshold })
 
                 const ts = Date.now()
-                // const result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks()
-                const result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks(true)
+                // const result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks(true)
+                const result = await faceapi.detectSingleFace(videoEl, options)
                 //updateTimeStats(Date.now() - ts)
 
                 if (result) {
-                    console.log(result.landmarks)
-                    const leftEye = result.landmarks.getLeftEye()
-                    const rightEye = result.landmarks.getRightEye()
-                    const angle = atan2(rightEye.y - leftEye.y, rightEye.y - leftEye.x) * 180 / PI;
                     const canvas = document.getElementById('overlay')
                     const dims = faceapi.matchDimensions(canvas, videoEl, true)
                     const height = dims.height
@@ -109,10 +105,16 @@
                     const boxHeight = box.height + sizing.heightOffset;
                     
                     //faceapi.draw.drawDetections(canvas, resizedResults);
-                    const ctx = canvas.getContext('2d');
+                    const ctx = canvas.getContext('2d');                    
                     ctx.drawImage(maskImage, left, top, boxWidth, boxHeight);
-                    // TODO: when face orientation is found ...
-                    // canvas.style.transform = `rotate(${angle}deg)`;
+                    
+                    if (result.landmarks) {
+                        console.log(result.landmarks)
+                        const leftEye = result.landmarks.getLeftEye()
+                        const rightEye = result.landmarks.getRightEye()
+                        const angle = Math.atan2(rightEye.y - leftEye.y, rightEye.y - leftEye.x) * 180 / PI;
+                        canvas.style.transform = `rotate(${angle}deg)`;
+                    }
                 }
 
                 setTimeout(() => onPlay())
