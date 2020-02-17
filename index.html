@@ -26,9 +26,9 @@
                     heightOffset: 70
                 },
                 'spiderman': {
-                    topOffset: -80,
-                    leftOffet: 0,
-                    widthOffset: 10,
+                    topOffset: -75,
+                    leftOffet: -15,
+                    widthOffset: 40,
                     heightOffset: 40
                 },
                 'batman': {
@@ -36,6 +36,12 @@
                     leftOffet: -20,
                     widthOffset: 45,
                     heightOffset: 45
+                },
+                'diademe': {
+                    topOffset: -80,
+                    leftOffet: -35,
+                    widthOffset: 80,
+                    heightOffset: 80
                 }
             }
             let hero = 'mask-bleu';
@@ -61,8 +67,10 @@
             async function onPlay() {
                 const videoEl = document.getElementById('inputVideo')
 
-                if(videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded())
+                if(videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded()) {
+                    console.log('not loaded')
                     return setTimeout(() => onPlay())
+                }
 
 
                 // const options = getFaceDetectorOptions()
@@ -72,9 +80,7 @@
                 const options = new faceapi.TinyFaceDetectorOptions({ inputSize, scoreThreshold })
 
                 const ts = Date.now()
-
                 const result = await faceapi.detectSingleFace(videoEl, options)
-
                 //updateTimeStats(Date.now() - ts)
 
                 if (result) {
@@ -134,6 +140,7 @@
             </div>
             <select onchange="selectMask(this.options[this.selectedIndex])">
                 <option value="batman">Batman</option>
+                <option value="diademe">Diadème</option>
                 <option value="iron-man" >Iron Man</option>
                 <option value="mask-bleu" selected>Masque Bleu</option>
                 <option value="spiderman">Spiderman</option>
