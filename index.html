@@ -51,8 +51,9 @@
             let sizing = sizings[hero]
             function onFaceApiLoad() {
                 console.log(faceapi.nets)
-                //return faceapi.nets.ssdMobilenetv1.loadFromUri('./assets/models')
-                return faceapi.nets.tinyFaceDetector.loadFromUri('./assets/models')
+                // return faceapi.nets.ssdMobilenetv1.loadFromUri('./assets/models')
+                // return faceapi.nets.tinyFaceDetector.loadFromUri('./assets/models')
+                return getCurrentFaceDetectionNet().loadFromUri('./assets/models')
             }
 
             function isFaceDetectionModelLoaded() {
@@ -60,8 +61,9 @@
             }
 
             function getCurrentFaceDetectionNet() {
-                //return faceapi.nets.ssdMobilenetv1
-                return faceapi.nets.tinyFaceDetector
+                // return faceapi.nets.ssdMobilenetv1
+                // return faceapi.nets.tinyFaceDetector
+                return faceapi.nets.faceLandmark68Net
             }
 
             async function onPlay() {
@@ -80,10 +82,15 @@
                 const options = new faceapi.TinyFaceDetectorOptions({ inputSize, scoreThreshold })
 
                 const ts = Date.now()
-                const result = await faceapi.detectSingleFace(videoEl, options)
+                // const result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks()
+                const result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks(true)
                 //updateTimeStats(Date.now() - ts)
 
                 if (result) {
+                    console.log(result.landmarks)
+                    const leftEye = result.landmarks.getLeftEye()
+                    const rightEye = result.landmarks.getRightEye()
+                    const angle = atan2(rightEye.y - leftEye.y, rightEye.y - leftEye.x) * 180 / PI;
                     const canvas = document.getElementById('overlay')
                     const dims = faceapi.matchDimensions(canvas, videoEl, true)
                     const height = dims.height
@@ -105,7 +112,7 @@
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(maskImage, left, top, boxWidth, boxHeight);
                     // TODO: when face orientation is found ...
-                    // canvas.style.transform = 'rotate(45deg)';
+                    // canvas.style.transform = `rotate(${angle}deg)`;
                 }
 
                 setTimeout(() => onPlay())
