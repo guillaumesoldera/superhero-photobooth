@@ -27,3 +27,4 @@ Puis RDV ici : http://localhost:5000
 - [ ] images de masques transparentes propres ;-)
 - [ ] possibilité de participer à un tirage au sort
 - [ ] lancer le tirage au sort
+- [ ] verifier que ca fonctionne bien sur une tablette pour ne pas avoir a laisser un pc en libre usage
