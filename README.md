@@ -23,3 +23,7 @@ Puis RDV ici : http://localhost:5000
 - [ ] détailler le 'comment ça marche' (libs utilisées notamment)
 - [ ] ajouter une licence ?
 - [ ] RGPD !
+- [ ] déployer sur serliapps.dev ?
+- [ ] images de masques transparentes propres ;-)
+- [ ] possibilité de participer à un tirage au sort
+- [ ] lancer le tirage au sort
