@@ -91,6 +91,7 @@
                     const resizedResults = faceapi.resizeResults(result, dims);
                     const box = resizedResults.box;
                     const top = box.top + sizing.topOffset;
+                    
                     // box.right
                     //const left = box.left - 60;
                     const left = box.left + sizing.leftOffet;
@@ -103,6 +104,8 @@
                     //faceapi.draw.drawDetections(canvas, resizedResults);
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(maskImage, left, top, boxWidth, boxHeight);
+                    // TODO: when face orientation is found ...
+                    // canvas.style.transform = 'rotate(45deg)';
                 }
 
                 setTimeout(() => onPlay())
