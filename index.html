@@ -53,7 +53,9 @@
                 console.log(faceapi.nets)
                 // return faceapi.nets.ssdMobilenetv1.loadFromUri('./assets/models')
                 // return faceapi.nets.tinyFaceDetector.loadFromUri('./assets/models')
-                return getCurrentFaceDetectionNet().loadFromUri('./assets/models')
+                return getCurrentFaceDetectionNet().loadFromUri('./assets/models').then(() => {
+                    faceapi.nets.faceLandmark68TinyNet.loadFromUri('./assets/models')
+                })
             }
 
             function isFaceDetectionModelLoaded() {
@@ -82,8 +84,8 @@
                 const options = new faceapi.TinyFaceDetectorOptions({ inputSize, scoreThreshold })
 
                 const ts = Date.now()
-                // const result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks(true)
-                const result = await faceapi.detectSingleFace(videoEl, options)
+                const result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks(true)
+                //const result = await faceapi.detectSingleFace(videoEl, options)
                 //updateTimeStats(Date.now() - ts)
 
                 if (result) {
@@ -92,7 +94,7 @@
                     const height = dims.height
                     const width =  dims.width
                     const resizedResults = faceapi.resizeResults(result, dims);
-                    const box = resizedResults.box;
+                    const box = resizedResults.box || resizedResults.detection.box;
                     const top = box.top + sizing.topOffset;
                     
                     // box.right
@@ -109,10 +111,9 @@
                     ctx.drawImage(maskImage, left, top, boxWidth, boxHeight);
                     
                     if (result.landmarks) {
-                        console.log(result.landmarks)
-                        const leftEye = result.landmarks.getLeftEye()
-                        const rightEye = result.landmarks.getRightEye()
-                        const angle = Math.atan2(rightEye.y - leftEye.y, rightEye.y - leftEye.x) * 180 / PI;
+                        const leftEye = result.landmarks.getLeftEye()[0]
+                        const rightEye = result.landmarks.getRightEye()[0]
+                        const angle = Math.atan2(rightEye.y - leftEye.y, rightEye.x - leftEye.x) * 180 / Math.PI;
                         canvas.style.transform = `rotate(${angle}deg)`;
                     }
                 }
