@@ -25,6 +25,12 @@
                     widthOffset: 70,
                     heightOffset: 70
                 },
+                'wolverine': {
+                    topOffset: -95,
+                    leftOffet: -40,
+                    widthOffset: 80,
+                    heightOffset: 120
+                },
                 'spiderman': {
                     topOffset: -75,
                     leftOffet: -15,
@@ -44,7 +50,7 @@
                     heightOffset: 80
                 }
             }
-            let hero = 'mask-bleu';
+            let hero = 'wolverine';
             const maskImage = new Image();
             //maskImage.src = './assets/images/mask-bleu.png';
             maskImage.src = `./assets/images/${hero}.png`;
@@ -109,7 +115,8 @@
                     //faceapi.draw.drawDetections(canvas, resizedResults);
                     const ctx = canvas.getContext('2d');                    
                     ctx.drawImage(maskImage, left, top, boxWidth, boxHeight);
-                    
+                    // TODO regarder la position du nez pour voir si c'est au milieu de la box (avec box.width et box.height)
+                    // suivant la distance entre le nez et le milieu de la boite, faire un rotate3d
                     if (result.landmarks) {
                         const leftEye = result.landmarks.getLeftEye()[0]
                         const rightEye = result.landmarks.getRightEye()[0]
@@ -155,8 +162,9 @@
                 <option value="batman">Batman</option>
                 <option value="diademe">Diadème</option>
                 <option value="iron-man" >Iron Man</option>
-                <option value="mask-bleu" selected>Masque Bleu</option>
+                <option value="mask-bleu">Masque Bleu</option>
                 <option value="spiderman">Spiderman</option>
+                <option value="wolverine" selected>Wolverine</option>
             </select>
         </main>
     </body>
