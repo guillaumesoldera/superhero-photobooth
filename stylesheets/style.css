@@ -11,7 +11,12 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 21px;
+}
+@media screen and (min-width: 376px) {
+    header {
+        font-size: 24px;
+    }
 }
 main {
   padding: 20px;
@@ -22,21 +27,27 @@ main {
   height: calc(100vh - 100px);
 }
 .main-container {
-    height: 550px;
     width: 700px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto;
+    margin-top: 70px;
+    max-width: 100%;
 }
 .video-container {
     position: relative;
+}
+
+video {
+    max-width: 100%;
 }
 
 #overlay {
   position: absolute;
   top: 0;
   left: 0;
+  max-width: 100%;
 }
 
 .box {
@@ -67,6 +78,7 @@ main {
 }
 
 .mask-select {
+    margin-top: 40px;
     width: 270px;
     padding: 4px 8px;
     line-height: 32px;
