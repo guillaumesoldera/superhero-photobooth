@@ -73,7 +73,8 @@
 
                 if(videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded()) {
                     console.log('not loaded')
-                    return setTimeout(() => onPlay())
+                    // return setTimeout(() => onPlay())
+                    return requestAnimationFrame(() => onPlay())
                 }
 
 
@@ -94,7 +95,7 @@
                     const height = dims.height
                     const width =  dims.width
                     const resizedResults = faceapi.resizeResults(result, dims);
-                    const box = resizedResults.box || resizedResults.detection.box;
+                    const box = resizedResults.box || resizedResults.detection.box;
                     const top = box.top + sizing.topOffset;
                     
                     // box.right
@@ -118,7 +119,7 @@
                     }
                 }
 
-                setTimeout(() => onPlay())
+                requestAnimationFrame(() => onPlay())
             }
 
             async function setVideo() {
