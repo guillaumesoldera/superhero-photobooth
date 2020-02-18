@@ -1,16 +1,9 @@
 <html>
     <head>
-        <style>
-            .main-container {
-                position: relative;
-            }
-
-            #overlay {
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Bangers" />
+        <link rel="stylesheet" type="text/css" href="./stylesheets/style.css" />
+        
         <script>
             const sizings = {
                 'mask-bleu': {
@@ -154,7 +147,8 @@
                         canvas.style.transform = `rotate(${angle}deg)`;
                     }
                 } else {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    // marche pas trop
+                    //ctx.clearRect(0, 0, canvas.width, canvas.height);
                 }
 
                 requestAnimationFrame(() => onPlay())
@@ -187,10 +181,12 @@
         </header>
         <main>
             <div class="main-container">
-                <video onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
-                <canvas id="overlay" />
+                <div class="video-container">
+                    <video class="box sheet" onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
+                    <canvas id="overlay" />
+                </div>
             </div>
-            <select onchange="selectMask(this.options[this.selectedIndex])">
+            <select class="box mask-select" onchange="selectMask(this.options[this.selectedIndex])">
                 <option value="batman">Batman</option>
                 <option value="diademe">Diadème argent</option>
                 <option value="iron-man" >Iron Man</option>

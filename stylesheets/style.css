@@ -1,13 +1,75 @@
 body {
-    color: yellow;
+  font-family: "Bangers", cursive;
+  margin: 0;
 }
-
+header {
+  color: #ffffff;
+  background-color: #c60506;
+  font-weight: bold;
+  padding: 0 10px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+main {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image:radial-gradient(circle, lightcoral, tomato);
+  height: calc(100vh - 100px);
+}
 .main-container {
+    height: 550px;
+    width: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+.video-container {
     position: relative;
 }
 
 #overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.box {
+  background: #fff;
+  border: solid black;
+  border-color: black;
+}
+.top-left {
+  letter-spacing: normal;
+}
+
+.content-box {
+  border-width: 3px 3px 5px 5px;
+}
+
+.card {
+  border: solid black !important;
+  border-color: black !important;
+  border-width: 3px 4px 3px 5px !important;
+  border-radius: 95% 4% 92% 5%/4% 95% 6% 95% !important;
+}
+
+.sheet {
+  border: solid black !important;
+  border-color: black !important;
+  border-width: 3px 4px 5px 5px !important;
+  border-radius: 95% 2% 162% 3%/9% 96% 2% 99% !important;
+}
+
+.mask-select {
+    width: 270px;
+    padding: 4px 8px;
+    line-height: 32px;
+    font-size: 21px;
+    font-family:'Comic Sans MS', cursive;
 }
