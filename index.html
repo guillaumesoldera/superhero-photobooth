@@ -123,9 +123,9 @@
                 const result = await faceapi.detectSingleFace(videoEl, options).withFaceLandmarks(true)
                 //const result = await faceapi.detectSingleFace(videoEl, options)
                 //updateTimeStats(Date.now() - ts)
-
+                const canvas = document.getElementById('overlay')
+                const ctx = canvas.getContext('2d');  
                 if (result) {
-                    const canvas = document.getElementById('overlay')
                     const dims = faceapi.matchDimensions(canvas, videoEl, true)
                     const height = dims.height
                     const width =  dims.width
@@ -143,7 +143,7 @@
                     const boxHeight = box.height + sizing.heightOffset;
                     
                     //faceapi.draw.drawDetections(canvas, resizedResults);
-                    const ctx = canvas.getContext('2d');                    
+                                      
                     ctx.drawImage(maskImage, left, top, boxWidth, boxHeight);
                     // TODO regarder la position du nez pour voir si c'est au milieu de la box (avec box.width et box.height)
                     // suivant la distance entre le nez et le milieu de la boite, faire un rotate3d
@@ -153,6 +153,8 @@
                         const angle = Math.atan2(rightEye.y - leftEye.y, rightEye.x - leftEye.x) * 180 / Math.PI;
                         canvas.style.transform = `rotate(${angle}deg)`;
                     }
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                 }
 
                 requestAnimationFrame(() => onPlay())
