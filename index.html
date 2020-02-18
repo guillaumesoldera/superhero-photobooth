@@ -66,9 +66,15 @@
                     leftOffet: -5,
                     widthOffset: 10,
                     heightOffset: 10
+                },
+                'mask-rouge': {
+                    topOffset: -65,
+                    leftOffet: -30,
+                    widthOffset: 50,
+                    heightOffset: 50
                 }
             }
-            let hero = 'mask-vert';
+            let hero = 'mask-rouge';
             const maskImage = new Image();
             //maskImage.src = './assets/images/mask-bleu.png';
             maskImage.src = `./assets/images/${hero}.png`;
@@ -185,7 +191,8 @@
                 <option value="wolverine">Wolverine</option>
                 <option value="flash">Flash</option>
                 <option value="mask-vert">Masque vert</option>
-                <option value="diademe-2" selected>Diadème or</option>
+                <option value="diademe-2">Diadème or</option>
+                <option value="mask-rouge" selected>Masque rouge</option>
             </select>
         </main>
     </body>
