@@ -71,9 +71,8 @@
             async function onPlay() {
                 const videoEl = document.getElementById('inputVideo')
 
-                if(videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded()) {
+                if (videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded()) {
                     console.log('not loaded')
-                    // return setTimeout(() => onPlay())
                     return requestAnimationFrame(() => onPlay())
                 }
 
