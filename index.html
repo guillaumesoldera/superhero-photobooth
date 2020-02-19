@@ -2,20 +2,20 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Bangers" />
-        <link rel="manifest" href="/manifest.json">
+        <link rel="manifest" href="./manifest.json">
         <link rel="stylesheet" type="text/css" href="./stylesheets/style.css" />
-        <link rel="shortcut icon" type="image/png" href="/assets/images/icons/icon-72x72.png">
-        <link rel="icon" sizes="192x192" href="/assets/images/icons/icon-192x192.png">
-        <link rel="apple-touch-icon" href="/assets/images/icons/icon-128x128.png">
-        <link rel="apple-touch-icon" sizes="192x192" href="/assets/images/icons/icon-192x192.png">
-        <link rel="apple-touch-startup-image" href="/assets/images/icons/icon-192x192.png">
+        <link rel="shortcut icon" type="image/png" href="./assets/images/icons/icon-72x72.png">
+        <link rel="icon" sizes="192x192" href="./assets/images/icons/icon-192x192.png">
+        <link rel="apple-touch-icon" href="./assets/images/icons/icon-128x128.png">
+        <link rel="apple-touch-icon" sizes="192x192" href="./assets/images/icons/icon-192x192.png">
+        <link rel="apple-touch-startup-image" href="./assets/images/icons/icon-192x192.png">
 
         <script>
             let vh = window.innerHeight * 0.01;
             // Then we set the value in the --vh custom property to the root of the document
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             if('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('service-worker.js');
+                navigator.serviceWorker.register('./service-worker.js');
             };
         </script>
     </head>
