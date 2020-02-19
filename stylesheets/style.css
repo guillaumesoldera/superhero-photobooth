@@ -25,6 +25,7 @@ main {
   align-items: center;
   background-image:radial-gradient(circle, lightcoral, tomato);
   height: calc(100vh - 100px);
+  height: calc((var(--vh, 1vh) * 100) - 100px)
 }
 .main-container {
     width: 700px;
