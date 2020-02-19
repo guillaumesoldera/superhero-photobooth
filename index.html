@@ -3,8 +3,41 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Bangers" />
         <link rel="stylesheet" type="text/css" href="./stylesheets/style.css" />
-        
+    </head>
+    <body>
+        <header>
+            <h1>You are a superhero !</h1>
+        </header>
+        <main>
+            <div class="switch-cameras-container">
+                <select id="switch-cameras" onchange="selectCamera(this.options[this.selectedIndex])" style="display: none;">
+                    <option value="user">Front</option>
+                    <option value="environment">Back</option>
+                </select>
+            </div>
+            <div class="main-container">
+                <div class="video-container">
+                    <video class="box sheet" onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
+                    <canvas id="overlay" />
+                </div>
+            </div>
+            <select class="box mask-select" onchange="selectMask(this.options[this.selectedIndex])">
+                <option value="batman">Batman</option>
+                <option value="diademe">Diadème argent</option>
+                <option value="iron-man" >Iron Man</option>
+                <option value="mask-bleu">Masque Bleu</option>
+                <option value="spiderman">Spiderman</option>
+                <option value="wolverine">Wolverine</option>
+                <option value="flash">Flash</option>
+                <option value="mask-vert">Masque vert</option>
+                <option value="diademe-2">Diadème or</option>
+                <option value="mask-rouge">Masque rouge</option>
+                <option value="mask-catcheur" selected>Masque catcheur</option>
+            </select>
+        </main>
+
         <script>
+            const videoEl = document.getElementById('inputVideo')
             const sizings = {
                 'mask-bleu': {
                     topOffset: -90,
@@ -98,7 +131,6 @@
             }
 
             async function onPlay() {
-                const videoEl = document.getElementById('inputVideo')
 
                 if (videoEl.paused || videoEl.ended || !isFaceDetectionModelLoaded()) {
                     console.log('not loaded')
@@ -156,14 +188,19 @@
 
             async function setVideo() {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: {} })
-                const videoEl = document.getElementById('inputVideo')
                 videoEl.srcObject = stream
             }
 
             function run() {
+                hasManyCameras()
+                .then(hasMany => {
+                    if (hasMany) {
+                        document.getElementById('switch-cameras').style = "";
+                    }
+                })
                 onFaceApiLoad()
                 .then(() => {
-                    setVideo();
+                    selectCamera()
                 })
             }   
             function selectMask(option) {
@@ -172,33 +209,44 @@
                 sizing = sizings[hero]
             }
 
+            function hasManyCameras() {
+                if (navigator.mediaDevices) {
+                    return navigator.mediaDevices.enumerateDevices()
+                        .then(devices => {
+                            return devices.filter(mediaDevice => mediaDevice.kind === 'videoinput') .length > 1
+                        });
+                }
+                return Promise.resolve(false)
+            }
+
+            let _currentStream = undefined;
+
+            function stopMediaTracks(stream) {
+                stream.getTracks().forEach(track => {
+                    track.stop();
+                });
+            }
+
+            async function selectCamera(option) {
+                if (_currentStream) {
+                    stopMediaTracks(_currentStream);
+                }
+
+                const videoConstraints = option ? {
+                    facingMode: option.value
+                } : {};
+                const constraints = {
+                    video: videoConstraints,
+                    audio: false
+                };
+                const stream = await navigator.mediaDevices.getUserMedia(constraints)
+                _currentStream = stream;
+                videoEl.srcObject = stream;
+                    
+            }
+
         </script>
         <script src="./scripts/face-api.min.js" onload="run()"></script>
-    </head>
-    <body>
-        <header>
-            <h1>You are a superhero !</h1>
-        </header>
-        <main>
-            <div class="main-container">
-                <div class="video-container">
-                    <video class="box sheet" onloadedmetadata="onPlay(this)" id="inputVideo" autoplay muted playsinline></video>
-                    <canvas id="overlay" />
-                </div>
-            </div>
-            <select class="box mask-select" onchange="selectMask(this.options[this.selectedIndex])">
-                <option value="batman">Batman</option>
-                <option value="diademe">Diadème argent</option>
-                <option value="iron-man" >Iron Man</option>
-                <option value="mask-bleu">Masque Bleu</option>
-                <option value="spiderman">Spiderman</option>
-                <option value="wolverine">Wolverine</option>
-                <option value="flash">Flash</option>
-                <option value="mask-vert">Masque vert</option>
-                <option value="diademe-2">Diadème or</option>
-                <option value="mask-rouge">Masque rouge</option>
-                <option value="mask-catcheur" selected>Masque catcheur</option>
-            </select>
-        </main>
+
     </body>
 </html>
