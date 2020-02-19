@@ -34,6 +34,9 @@
                 <option value="mask-rouge">Masque rouge</option>
                 <option value="mask-catcheur" selected>Masque catcheur</option>
             </select>
+            <button type="button" class="box mask-random" onclick="randomMask()">
+                Au hasard !
+            </button>
         </main>
 
         <script>
@@ -245,8 +248,14 @@
                     
             }
 
+            function randomMask() {
+                const heroes = Object.keys(sizings);
+                hero = heroes[Math.floor(Math.random() * heroes.length)];
+                maskImage.src = `./assets/images/${hero}.png`;
+                sizing = sizings[hero]
+            }
+
         </script>
         <script src="./scripts/face-api.min.js" onload="run()"></script>
-
     </body>
 </html>
