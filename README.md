@@ -14,7 +14,7 @@ Puis RDV ici : http://localhost:5000
 ## TODO
 
 - [x] choix d'un masque en particulier
-- [ ] bouton pour changer de masque en mode 'random'
+- [x] bouton pour changer de masque en mode 'random'
 - [ ] gérer le multi visages (sur un mode spécial, on garde le single par défaut, notamment pour le jeu / tirage au sort)
 - [ ] gérer l'inclinaison de la tête
 - [ ] gérer la prise de photo
