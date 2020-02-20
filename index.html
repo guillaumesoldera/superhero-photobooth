@@ -59,7 +59,7 @@
                 Participer au tirage au sort
             </button>
             <button type="button" class="box mask-random" onclick="pickWinner()">
-                Choisir un gagnabt
+                Choisir un gagnant
             </button>
         </main>
 
@@ -149,7 +149,7 @@
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.parse({ email: email, name: email, picture: otoPic })
+                        body: JSON.stringify({ email: email, name: email, picture: otoPic })
                     });
                 }
             }
@@ -163,7 +163,7 @@
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.parse({ email: email, name: email, picture: otoPic })
+                        body: JSON.stringify({ email: email, name: email, picture: otoPic })
                     });
                 }
             }
